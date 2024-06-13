@@ -70,6 +70,18 @@ void ApfAgent::listen_tf() {
                                  t.transform.translation.z);
     positions[id] = position;
   }
+
+  // Collision check
+  double min_dist = param.infinity;
+  for(size_t id = 0; id < number_of_agents; id++) {
+    double dist = (positions[id] - state.position).norm();
+    if(id != agent_id and dist < min_dist) {
+      min_dist = dist;
+    }
+  }
+  if(min_dist < param.safety_margin){
+    std::cout<< "Collision! Minimum distance between agents: " + std::to_string(min_dist) << std::endl;
+  }
 }
 
 void ApfAgent::update_state() {
@@ -103,7 +115,6 @@ Vector3d ApfAgent::apf_controller() {
   Vector3d u_goal = param.k_goal * (goal - state.position);
 
   // Repulsion force
-  double min_dist = param.infinity;
   Vector3d u_obs(0, 0, 0);
   for(size_t id = 0; id < number_of_agents; id++) {
     if(id == agent_id) {
@@ -111,23 +122,17 @@ Vector3d ApfAgent::apf_controller() {
     }
 
     double dist = (positions[id] - state.position).norm();
-    if(dist < min_dist) {
-      min_dist = dist;
-    }
-
     double obs_threshold = param.obs_threshold_ratio * param.safety_margin;
     if(dist < obs_threshold) {
       u_obs += param.k_obs * (1 / dist -  1 / obs_threshold) * (1 / (dist * dist)) *
                (state.position - positions[id]) / dist;
     }
   }
-  if(min_dist < param.safety_margin){
-    std::cout<< "Collision! Minimum distance between agents: " + std::to_string(min_dist) << std::endl;
-  }
 
   // Damping force
   Vector3d u_damp = -param.k_damp * state.velocity;
 
+  // Net force
   Vector3d u = u_goal + u_obs + u_damp;
 
   // Clamping
