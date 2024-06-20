@@ -1,0 +1,27 @@
+agents:
+- crazyflie_id: 1
+  goal:
+  - -4.0
+  - -0.0
+  - 1.0
+  start:
+  - 4.0
+  - 0.0
+  - 1.0
+- crazyflie_id: 2
+  goal:
+  - 0.0
+  - -4.0
+  - 1.0
+  start:
+  - 0.0
+  - 4.0
+  - 1.0
+world_max:
+- 10.0
+- 10.0
+- 2.0
+world_min:
+- -10.0
+- -10.0
+- 0.0

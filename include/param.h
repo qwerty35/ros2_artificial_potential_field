@@ -10,19 +10,18 @@ namespace apf {
 
 class Param {
 public:
-  // Config files
-  std::string mission_file_name = "mission/mission_circle_30.yaml";
-  double dt = 0.02;
+  std::string frame_id = "world";
 
   // Agent
-  double safety_margin = 0.15; // (m)
-  double max_acc = 10;   // (m/s^2)
+  double dt = 0.02; // timer period (s)
+  double radius = 0.15; // (m)
+  double max_acc = 2;   // (m/s^2)
 
   // APF
-  double k_goal = 0.7;
+  double k_goal = 1.0;
   double k_obs = 20;
-  double k_damp = 3;
-  double obs_threshold_ratio = 5;
+  double k_damp = 1.0;
+  double obs_threshold_ratio = 3;
 
   // Constant
   double infinity = 100000;

@@ -23,12 +23,19 @@ public:
   Vector3d velocity;
 };
 
+class Obstacle {
+public:
+  Vector3d position;
+  double radius;
+};
+
 class ApfAgent : public rclcpp::Node {
 private:
   rclcpp::TimerBase::SharedPtr timer;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener;
   std::unique_ptr<tf2_ros::Buffer> tf_buffer;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster;
+  rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr pub_pose;
 
   Param param;
   size_t agent_id = 0;
@@ -36,18 +43,21 @@ private:
   Vector3d start, goal;
 
   size_t number_of_agents = 0;
-  Vector3ds positions;
-  bool position_updated = false;
+  size_t number_of_obstacles = 0;
+  Vector3ds agent_positions;
+  std::vector<Obstacle> obstacles;
 
   void timer_callback();
 
-  void listen_tf();
+  void collision_check();
 
   void update_state();
 
   void broadcast_tf();
 
   Vector3d apf_controller();
+
+  void publish_marker_pose();
 
 public:
   ApfAgent();

@@ -6,6 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /MarkerArray1
+        - /MarkerArray1/Topic1
+        - /MarkerArray1/Namespaces1
       Splitter Ratio: 0.5
     Tree Height: 746
   - Class: rviz_common/Selection
@@ -54,64 +57,6 @@ Visualization Manager:
         All Enabled: true
         agent0:
           Value: true
-        agent1:
-          Value: true
-        agent10:
-          Value: true
-        agent11:
-          Value: true
-        agent12:
-          Value: true
-        agent13:
-          Value: true
-        agent14:
-          Value: true
-        agent15:
-          Value: true
-        agent16:
-          Value: true
-        agent17:
-          Value: true
-        agent18:
-          Value: true
-        agent19:
-          Value: true
-        agent2:
-          Value: true
-        agent20:
-          Value: true
-        agent21:
-          Value: true
-        agent22:
-          Value: true
-        agent23:
-          Value: true
-        agent24:
-          Value: true
-        agent25:
-          Value: true
-        agent26:
-          Value: true
-        agent27:
-          Value: true
-        agent28:
-          Value: true
-        agent29:
-          Value: true
-        agent3:
-          Value: true
-        agent4:
-          Value: true
-        agent5:
-          Value: true
-        agent6:
-          Value: true
-        agent7:
-          Value: true
-        agent8:
-          Value: true
-        agent9:
-          Value: true
         world:
           Value: true
       Marker Scale: 1
@@ -123,65 +68,19 @@ Visualization Manager:
         world:
           agent0:
             {}
-          agent1:
-            {}
-          agent10:
-            {}
-          agent11:
-            {}
-          agent12:
-            {}
-          agent13:
-            {}
-          agent14:
-            {}
-          agent15:
-            {}
-          agent16:
-            {}
-          agent17:
-            {}
-          agent18:
-            {}
-          agent19:
-            {}
-          agent2:
-            {}
-          agent20:
-            {}
-          agent21:
-            {}
-          agent22:
-            {}
-          agent23:
-            {}
-          agent24:
-            {}
-          agent25:
-            {}
-          agent26:
-            {}
-          agent27:
-            {}
-          agent28:
-            {}
-          agent29:
-            {}
-          agent3:
-            {}
-          agent4:
-            {}
-          agent5:
-            {}
-          agent6:
-            {}
-          agent7:
-            {}
-          agent8:
-            {}
-          agent9:
-            {}
       Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        pose: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /cf1/robot/pose
       Value: true
   Enabled: true
   Global Options:
@@ -238,7 +137,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 95.07386779785156
+      Scale: 141.58621215820312
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
       X: 0
