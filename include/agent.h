@@ -46,11 +46,10 @@ private:
   size_t number_of_obstacles = 0;
   Vector3ds agent_positions;
   std::vector<Obstacle> obstacles;
-  bool position_updated = false;
 
   void timer_callback();
 
-  void listen_tf();
+  void collision_check();
 
   void update_state();
 

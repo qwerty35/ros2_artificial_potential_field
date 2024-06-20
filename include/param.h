@@ -10,6 +10,8 @@ namespace apf {
 
 class Param {
 public:
+  std::string frame_id = "world";
+
   // Agent
   double dt = 0.02; // timer period (s)
   double radius = 0.15; // (m)

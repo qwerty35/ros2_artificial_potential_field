@@ -58,31 +58,13 @@ ApfAgent::ApfAgent() : Node("agent") {
 }
 
 void ApfAgent::timer_callback() {
-  listen_tf();
+  collision_check();
   update_state();
   broadcast_tf();
   publish_marker_pose();
 }
 
-void ApfAgent::listen_tf() {
-  position_updated = true;
-  for (size_t id = 0; id < number_of_agents; id++) {
-    geometry_msgs::msg::TransformStamped t;
-    try {
-      t = tf_buffer->lookupTransform("world",
-                                     "agent" + std::to_string(id),
-                                     tf2::TimePointZero);
-    } catch (const tf2::TransformException &ex) {
-      position_updated = false;
-      return;
-    }
-
-    Vector3d position = Vector3d(t.transform.translation.x,
-                                 t.transform.translation.y,
-                                 t.transform.translation.z);
-    agent_positions[id] = position;
-  }
-
+void ApfAgent::collision_check() {
   // Collision check
   double min_dist = param.infinity;
   for(size_t id = 0; id < number_of_agents; id++) {
@@ -104,66 +86,27 @@ void ApfAgent::listen_tf() {
 }
 
 void ApfAgent::update_state() {
-  if(not position_updated) {
-    return;
-  }
-
   Vector3d u = apf_controller();
 
-  state.position += state.velocity * param.dt + 0.5 * u * param.dt * param.dt;
-  state.velocity += u * param.dt;
+  //TODO: Update the state of the double integrator model using the control input u
+  state.position = TODO;
+  state.velocity = TODO;
 }
 
 void ApfAgent::broadcast_tf() {
-  geometry_msgs::msg::TransformStamped t;
-  t.header.stamp = this->get_clock()->now();
-  t.header.frame_id = "world";
-  t.child_frame_id = "agent" + std::to_string(agent_id);
-  t.transform.translation.x = state.position.x();
-  t.transform.translation.y = state.position.y();
-  t.transform.translation.z = state.position.z();
-  t.transform.rotation.w = 1;
-  t.transform.rotation.x = 0;
-  t.transform.rotation.y = 0;
-  t.transform.rotation.z = 0;
-  tf_broadcaster->sendTransform(t);
+  //TODO: Broadcast the agent's current position using 'state'
+  TODO;
 }
 
 Vector3d ApfAgent::apf_controller() {
   // Attraction force
-  Vector3d u_goal;
-  if((goal - state.position).norm() < 1) {
-    u_goal = param.k_goal * (goal - state.position);
-  } else {
-    u_goal = param.k_goal * (goal - state.position) / (goal - state.position).norm();
-  }
+  Vector3d u_goal = TODO;
 
   // Repulsion force
-  Vector3d u_obs(0, 0, 0);
-  for(size_t id = 0; id < number_of_agents; id++) {
-    if(id == agent_id) {
-      continue;
-    }
-
-    double dist = (agent_positions[id] - state.position).norm();
-    double obs_threshold = param.obs_threshold_ratio * 2 * param.radius;
-    if(dist < obs_threshold) {
-      u_obs += param.k_obs * (1 / dist -  1 / obs_threshold) * (1 / (dist * dist)) *
-               (state.position - agent_positions[id]) / dist;
-    }
-  }
-
-  for(size_t obs_id = 0; obs_id < number_of_obstacles; obs_id++) {
-    double dist = (obstacles[obs_id].position - state.position).norm();
-    double obs_threshold = param.obs_threshold_ratio * (param.radius + obstacles[obs_id].radius);
-    if(dist < obs_threshold) {
-      u_obs += param.k_obs * (1 / dist -  1 / obs_threshold) * (1 / (dist * dist)) *
-               (state.position - obstacles[obs_id].position) / dist;
-    }
-  }
+  Vector3d u_obs = TODO;
 
   // Damping force
-  Vector3d u_damp = -param.k_damp * state.velocity;
+  Vector3d u_damp = TODO;
 
   // Net force
   Vector3d u = u_goal + u_obs + u_damp;
@@ -189,7 +132,7 @@ void ApfAgent::publish_marker_pose() {
   visualization_msgs::msg::MarkerArray msg;
   for(size_t id = 0; id < number_of_agents; id++) {
     visualization_msgs::msg::Marker marker;
-    marker.header.frame_id = "world";
+    marker.header.frame_id = param.frame_id;
     marker.header.stamp = this->get_clock()->now();
     marker.ns = "agent";
     marker.id = (int)id;
@@ -214,7 +157,7 @@ void ApfAgent::publish_marker_pose() {
 
   for(size_t obs_id = 0; obs_id < number_of_obstacles; obs_id++) {
     visualization_msgs::msg::Marker marker;
-    marker.header.frame_id = "world";
+    marker.header.frame_id = param.frame_id;
     marker.header.stamp = this->get_clock()->now();
     marker.ns = "obstacle";
     marker.id = (int)obs_id;
