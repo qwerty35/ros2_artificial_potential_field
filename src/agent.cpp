@@ -41,9 +41,10 @@ ApfAgent::ApfAgent() : Node("agent") {
   state.velocity = Vector3d(0, 0, 0);
 
   // TF2_ROS
-  tf_buffer = std::make_unique<tf2_ros::Buffer>(this->get_clock());
-  tf_listener = std::make_shared<tf2_ros::TransformListener>(*tf_buffer);
-  tf_broadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+  //TODO: initialize tf
+  tf_buffer = TODO;
+  tf_listener = TODO;
+  tf_broadcaster = TODO;
 
   // ROS timer
   int timer_period_ms = static_cast<int>(param.dt * 1000);
@@ -63,6 +64,7 @@ void ApfAgent::timer_callback() {
   broadcast_tf();
   publish_marker_pose();
 }
+
 
 void ApfAgent::collision_check() {
   // Collision check
@@ -84,6 +86,7 @@ void ApfAgent::collision_check() {
     }
   }
 }
+
 
 void ApfAgent::update_state() {
   Vector3d u = apf_controller();
@@ -111,7 +114,7 @@ Vector3d ApfAgent::apf_controller() {
   // Net force
   Vector3d u = u_goal + u_obs + u_damp;
 
-  // Clamping
+  // Clamping for maximum acceleration constraint
   for(int i = 0; i < 3; i++) {
     if(u(i) > param.max_acc) {
       u(i) = param.max_acc;
