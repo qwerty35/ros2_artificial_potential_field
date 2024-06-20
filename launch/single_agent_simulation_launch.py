@@ -7,7 +7,7 @@ import yaml
 
 def generate_launch_description():
     package_path = str(os.path.realpath(get_package_share_directory('apf')))
-    mission_file_name = package_path + "/mission/mission_circle_30.yaml"
+    mission_file_name = package_path + "/mission/mission_single_agent.yaml"
     with open(mission_file_name, encoding='UTF-8') as f:
         mission = yaml.load(f, Loader=yaml.FullLoader)
     agents = mission['agents']
@@ -24,7 +24,8 @@ def generate_launch_description():
             output="screen",
             name="agent",
             parameters=[
-                {"agent_id": agent_id}
+                {"agent_id": agent_id,
+                 "mission_file_name": mission_file_name}
             ]
         )
         ld.add_action(traj_planner_node)

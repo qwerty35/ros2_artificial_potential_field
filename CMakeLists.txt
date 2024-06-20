@@ -56,7 +56,7 @@ ament_target_dependencies(agent_node ${ROS2_PACKAGES})
 install(TARGETS agent_node
   DESTINATION lib/${PROJECT_NAME})
 
-install(DIRECTORY launch config mission
+install(DIRECTORY launch config mission mesh
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()
