@@ -16,10 +16,7 @@ public:
   double max_acc = 6;   // (m/s^2)
 
   // APF
-  double k_goal = 1.0;
-  double k_obs = 20;
-  double k_damp = 1.5;
-  double obs_threshold_ratio = 2.5;
+  //TODO: add parameters
 
   // Constant
   double infinity = 100000;
