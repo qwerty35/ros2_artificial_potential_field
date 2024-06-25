@@ -71,25 +71,8 @@ void ApfAgent::timer_pub_callback() {
   publish_marker_pose();
 }
 
-void ApfAgent::listen_tf() {
-  position_updated = true;
-  for (size_t id = 0; id < number_of_agents; id++) {
-    geometry_msgs::msg::TransformStamped t;
-    try {
-      t = tf_buffer->lookupTransform("world",
-                                     "agent" + std::to_string(id),
-                                     tf2::TimePointZero);
-    } catch (const tf2::TransformException &ex) {
-      position_updated = false;
-      return;
-    }
 
-    Vector3d position = Vector3d(t.transform.translation.x,
-                                 t.transform.translation.y,
-                                 t.transform.translation.z);
-    agent_positions[id] = position;
-  }
-
+void ApfAgent::collision_check() {
   // Collision check
   double min_dist = param.infinity;
   for(size_t id = 0; id < number_of_agents; id++) {
@@ -110,11 +93,8 @@ void ApfAgent::listen_tf() {
   }
 }
 
-void ApfAgent::update_state() {
-  if(not position_updated) {
-    return;
-  }
 
+void ApfAgent::update_state() {
   Vector3d u = apf_controller();
 
   //TODO: Update the state of the double integrator model
@@ -137,11 +117,10 @@ Vector3d ApfAgent::apf_controller() {
   // Damping force
   Vector3d u_damp = TODO;
 
-
   // Net force
   Vector3d u = u_goal + u_obs + u_damp;
 
-  // Clamping
+  // Clamping for maximum acceleration constraint
   for(int i = 0; i < 3; i++) {
     if(u(i) > param.max_acc) {
       u(i) = param.max_acc;
@@ -162,7 +141,7 @@ void ApfAgent::publish_marker_pose() {
   visualization_msgs::msg::MarkerArray msg;
   for(size_t id = 0; id < number_of_agents; id++) {
     visualization_msgs::msg::Marker marker;
-    marker.header.frame_id = "world";
+    marker.header.frame_id = param.frame_id;
     marker.header.stamp = this->get_clock()->now();
     marker.ns = "agent";
     marker.id = (int)id;
@@ -187,7 +166,7 @@ void ApfAgent::publish_marker_pose() {
 
   for(size_t obs_id = 0; obs_id < number_of_obstacles; obs_id++) {
     visualization_msgs::msg::Marker marker;
-    marker.header.frame_id = "world";
+    marker.header.frame_id = param.frame_id;
     marker.header.stamp = this->get_clock()->now();
     marker.ns = "obstacle";
     marker.id = (int)obs_id;
