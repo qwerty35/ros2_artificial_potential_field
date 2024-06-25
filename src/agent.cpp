@@ -47,8 +47,11 @@ ApfAgent::ApfAgent() : Node("agent") {
 
   // ROS timer
   int timer_period_ms = static_cast<int>(param.dt * 1000);
-  timer = this->create_wall_timer(std::chrono::milliseconds(timer_period_ms),
-                                  std::bind(&ApfAgent::timer_callback, this));
+  timer_tf = this->create_wall_timer(std::chrono::milliseconds(timer_period_ms),
+                                  std::bind(&ApfAgent::timer_tf_callback, this));
+
+  timer_pub = this->create_wall_timer(40ms,
+                                  std::bind(&ApfAgent::timer_pub_callback, this));
 
   // ROS publisher
   pub_pose = this->create_publisher<visualization_msgs::msg::MarkerArray>("robot/pose", 10);
@@ -57,10 +60,13 @@ ApfAgent::ApfAgent() : Node("agent") {
   std::cout << "[ApfAgent] Agent" << agent_id << " is ready." << std::endl;
 }
 
-void ApfAgent::timer_callback() {
+void ApfAgent::timer_tf_callback() {
   listen_tf();
   update_state();
   broadcast_tf();
+}
+
+void ApfAgent::timer_pub_callback() {
   publish_marker_pose();
 }
 

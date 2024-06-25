@@ -7,8 +7,8 @@ import yaml
 
 def generate_launch_description():
     package_path = str(os.path.realpath(get_package_share_directory('apf')))
-    mission_file_name = package_path + "/mission/mission_multi_agent_2.yaml"
-    # mission_file_name = package_path + "/mission/mission_multi_agent_30.yaml"
+    # mission_file_name = package_path + "/mission/mission_multi_agent_2.yaml"
+    mission_file_name = package_path + "/mission/mission_multi_agent_30.yaml"
     with open(mission_file_name, encoding='UTF-8') as f:
         mission = yaml.load(f, Loader=yaml.FullLoader)
     agents = mission['agents']

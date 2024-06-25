@@ -31,7 +31,7 @@ public:
 
 class ApfAgent : public rclcpp::Node {
 private:
-  rclcpp::TimerBase::SharedPtr timer;
+  rclcpp::TimerBase::SharedPtr timer_tf, timer_pub;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener;
   std::unique_ptr<tf2_ros::Buffer> tf_buffer;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster;
@@ -48,7 +48,8 @@ private:
   std::vector<Obstacle> obstacles;
   bool position_updated = false;
 
-  void timer_callback();
+  void timer_tf_callback();
+  void timer_pub_callback();
 
   void listen_tf();
 

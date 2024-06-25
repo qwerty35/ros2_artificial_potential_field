@@ -13,13 +13,13 @@ public:
   // Agent
   double dt = 0.02; // timer period (s)
   double radius = 0.15; // (m)
-  double max_acc = 2;   // (m/s^2)
+  double max_acc = 6;   // (m/s^2)
 
   // APF
   double k_goal = 1.0;
   double k_obs = 20;
-  double k_damp = 1.0;
-  double obs_threshold_ratio = 3;
+  double k_damp = 1.5;
+  double obs_threshold_ratio = 2.5;
 
   // Constant
   double infinity = 100000;
