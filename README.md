@@ -1,5 +1,4 @@
 # Artificial Potential Field
-=============================
 
 Follow the instructions in the link to implement the APF planner.
 
