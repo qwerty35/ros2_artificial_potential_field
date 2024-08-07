@@ -6,7 +6,7 @@ import os
 import yaml
 
 def generate_launch_description():
-    package_path = str(os.path.realpath(get_package_share_directory('apf')))
+    package_path = str(os.path.realpath(get_package_share_directory('ros2_artificial_potential_field')))
     # mission_file_name = package_path + "/mission/mission_multi_agent_2.yaml"
     mission_file_name = package_path + "/mission/mission_multi_agent_30.yaml"
     with open(mission_file_name, encoding='UTF-8') as f:
@@ -19,7 +19,7 @@ def generate_launch_description():
         namespace="cf" + str(agents[agent_id]["crazyflie_id"])
 
         traj_planner_node = Node(
-            package="apf",
+            package="ros2_artificial_potential_field",
             namespace=namespace,
             executable="agent_node",
             output="screen",

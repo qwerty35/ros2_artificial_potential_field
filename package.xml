@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>apf</name>
+  <name>ros2_artificial_potential_field</name>
   <version>0.0.0</version>
-  <description>density_potential_field</description>
-  <maintainer email="jungwonpark@seoultech.ac.kr">jungwon</maintainer>
-  <license>MIT</license>
+  <description>ros2 artificial potential field</description>
+  <maintainer email="jungwonpark@seoultech.ac.kr">Jungwon Park</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

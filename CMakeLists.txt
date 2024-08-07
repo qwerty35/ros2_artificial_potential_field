@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(apf)
+project(ros2_artificial_potential_field)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -41,9 +41,8 @@ set(ROS2_PACKAGES
   visualization_msgs
   ament_index_cpp)
 
-#MULTI_AMR_PLANNER
 set(AGENT_SRC
-        src/agent.cpp
+  src/agent.cpp
   src/agent_node.cpp)
 
 #########
@@ -56,7 +55,7 @@ ament_target_dependencies(agent_node ${ROS2_PACKAGES})
 install(TARGETS agent_node
   DESTINATION lib/${PROJECT_NAME})
 
-install(DIRECTORY launch config mission mesh
+install(DIRECTORY launch config mission
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()
