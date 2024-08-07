@@ -9,12 +9,6 @@
 #include "visualization_msgs/msg/marker_array.hpp"
 #include "yaml-cpp/yaml.h"
 #include <Eigen/Dense>
-#include <ament_index_cpp/get_package_share_directory.hpp>
-#include <cstdlib>
-#include <filesystem>
-#include <iostream>
-#include <sstream>
-#include <utility>
 
 namespace apf {
 typedef Eigen::Vector3d Vector3d;
